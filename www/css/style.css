@@ -10,3 +10,13 @@
   line-height: 45px;
   font-size: 1.25em;
 }
+
+.task-item {
+  display: inline-block;
+  width: 100%;
+}
+
+.task-title {
+  display: inline-block;
+  border: none;
+}

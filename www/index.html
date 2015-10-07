@@ -37,8 +37,9 @@
         </ion-header-bar>
         <ion-content scroll="false">
           <ion-list>
-            <ion-item ng-repeat="task in activeProject.tasks">
-              <ion-checkbox ng-model="task.isChecked">{{task.title}}</ion-checkbox>
+            <ion-item class="task-item" ng-repeat="task in activeProject.tasks">
+              <ion-checkbox class="task-title" ng-model="task.isChecked" ng-click="saveTask()">{{task.title}}</ion-checkbox>
+              <button class="button button-icon ion-minus-circled float-right delete-btn" ng-click="removeTask(task)"></button>
             </ion-item>
           </ion-list>
         </ion-content>
@@ -54,7 +55,7 @@
           <ion-list>
             <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
               <span class="project-text">{{project.title}}</span>
-              <button class="button button-icon ion-minus-circled float-right delete-btn" ng-click="removeProject(project)">
+              <button class="button button-icon ion-minus-circled float-right delete-btn" ng-click="removeProject(project)"></button>
             </ion-item>
           </ion-list>
         </ion-content>

@@ -69,15 +69,18 @@ angular.module('todo', ['ionic'])
     confirmPopup.then(function(res){
       if (res) {
         // remove the current project and save all project, not efficient but works...
-        $scope.projects.pop(project);
-        Projects.save($scope.projects);
-        if ($scope.projects.length <= 0) {
-          var projectTitle = prompt('Your first project title:');
-          if(projectTitle) {
-            createProject(projectTitle);
+        var index = $scope.projects.indexOf(project);
+        if (index > -1) {
+          $scope.projects.splice(index, 1);
+          Projects.save($scope.projects);
+          if ($scope.projects.length <= 0) {
+            var projectTitle = prompt('Your first project title:');
+            if(projectTitle) {
+              createProject(projectTitle);
+            }
           }
+          $ionicSideMenuDelegate.toggleLeft(true);
         }
-        $ionicSideMenuDelegate.toggleLeft(true);
       }
     });
   };
@@ -101,8 +104,8 @@ angular.module('todo', ['ionic'])
       return;
     }
     $scope.activeProject.tasks.push({
-      title: task.title
-
+      title: task.title,
+      isChecked: false
     });
     $scope.taskModal.hide();
 
@@ -111,6 +114,30 @@ angular.module('todo', ['ionic'])
 
     task.title = "";
   };
+
+  $scope.removeTask = function(task) {
+    if(!$scope.activeProject || !task) {
+      return;
+    }
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Delete Task?',
+      template: 'Are you sure you want to delete this task?'
+    });
+    confirmPopup.then(function(res){
+      if (res) {
+        var index = $scope.activeProject.tasks.indexOf(task);
+        if (index > -1) {
+          $scope.activeProject.tasks.splice(index, 1);
+          // Inefficient, but works
+          Projects.save($scope.projects);
+        }
+      }
+    });
+  }
+
+  $scope.saveTask = function() {
+    Projects.save($scope.projects);
+  }
 
   $scope.newTask = function() {
     $scope.taskModal.show();
