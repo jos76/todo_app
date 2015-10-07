@@ -36,7 +36,7 @@ angular.module('todo', ['ionic'])
     }
   }
 })
-.controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate) {
+.controller('TodoCtrl', function($scope, $timeout, $ionicModal, $ionicPopup, Projects, $ionicSideMenuDelegate) {
 
   // A utility function for creating a new project
   // with the given projectTitle
@@ -62,9 +62,24 @@ angular.module('todo', ['ionic'])
   };
 
   $scope.removeProject = function(project) {
-    // remove the current project and save all project, not efficient but works...
-    $scope.projects.pop(project);
-    Projects.save($scope.projects);
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Delete Project?',
+      template: 'Are you sure you want to delete this project?'
+    });
+    confirmPopup.then(function(res){
+      if (res) {
+        // remove the current project and save all project, not efficient but works...
+        $scope.projects.pop(project);
+        Projects.save($scope.projects);
+        if ($scope.projects.length <= 0) {
+          var projectTitle = prompt('Your first project title:');
+          if(projectTitle) {
+            createProject(projectTitle);
+          }
+        }
+        $ionicSideMenuDelegate.toggleLeft(true);
+      }
+    });
   };
 
   // Called to select the given project

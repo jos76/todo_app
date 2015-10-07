@@ -54,7 +54,7 @@
           <ion-list>
             <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
               <span class="project-text">{{project.title}}</span><!--TODO: fix this display -->
-              <button class="button button-icon ion-minus-circled float-right" ng-click="removeProject(project)">
+              <button class="button button-icon ion-minus-circled float-right delete-btn" ng-click="removeProject(project)">
             </ion-item>
           </ion-list>
         </ion-content>
