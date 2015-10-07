@@ -38,7 +38,7 @@
         <ion-content scroll="false">
           <ion-list>
             <ion-item ng-repeat="task in activeProject.tasks">
-              {{task.title}}
+              <ion-checkbox ng-model="task.isChecked">{{task.title}}</ion-checkbox>
             </ion-item>
           </ion-list>
         </ion-content>
@@ -53,7 +53,8 @@
         <ion-content scroll="false">
           <ion-list>
             <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
-              {{project.title}}
+              <span class="project-text">{{project.title}}</span><!--TODO: fix this display -->
+              <button class="button button-icon ion-minus-circled float-right" ng-click="removeProject(project)">
             </ion-item>
           </ion-list>
         </ion-content>

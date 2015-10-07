@@ -47,7 +47,6 @@ angular.module('todo', ['ionic'])
     $scope.selectProject(newProject, $scope.projects.length-1);
   }
 
-
   // Load or initialize projects
   $scope.projects = Projects.all();
 
@@ -60,6 +59,12 @@ angular.module('todo', ['ionic'])
     if(projectTitle) {
       createProject(projectTitle);
     }
+  };
+
+  $scope.removeProject = function(project) {
+    // remove the current project and save all project, not efficient but works...
+    $scope.projects.pop(project);
+    Projects.save($scope.projects);
   };
 
   // Called to select the given project
@@ -82,6 +87,7 @@ angular.module('todo', ['ionic'])
     }
     $scope.activeProject.tasks.push({
       title: task.title
+
     });
     $scope.taskModal.hide();
 
